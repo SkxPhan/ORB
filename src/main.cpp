@@ -17,21 +17,33 @@ int main(int argc, char** argv) {
   auto keypoints2 = orb.findFASTKeypoints(second_image);
 
   std::cout << "Number of keypoints in image 1: " << keypoints1.size() << '\n';
+  std::cout << "Number of keypoints in image 2: " << keypoints2.size() << '\n';
 
   auto descriptors1 = orb.computeBRIEFdescriptors(first_image, keypoints1);
   auto descriptors2 = orb.computeBRIEFdescriptors(second_image, keypoints2);
 
-  auto nbr_descriptors = 0;
+  auto nbr_descriptors1 = 0;
+  auto nbr_descriptors2 = 0;
   for (const auto& descriptor : descriptors1) {
-    if (!descriptor.empty()) ++nbr_descriptors;
+    if (!descriptor.empty()) ++nbr_descriptors1;
+  }
+  for (const auto& descriptor : descriptors2) {
+    if (!descriptor.empty()) ++nbr_descriptors2;
   }
 
-  std::cout << "Number of descriptors: " << nbr_descriptors << '\n';
+  std::cout << "Number of ORB descriptors in image 1: " << nbr_descriptors1
+            << '\n';
+  std::cout << "Number of ORB descriptors in image 2: " << nbr_descriptors2
+            << '\n';
 
   std::cout << "Displaying keypoints...\n";
-  cv::Mat outimg;
-  drawKeypoints(first_image, keypoints1, outimg, cv::Scalar::all(-1),
+  cv::Mat outimg1, outimg2;
+  drawKeypoints(first_image, keypoints1, outimg1, cv::Scalar::all(-1),
                 cv::DrawMatchesFlags::DEFAULT);
-  cv::imshow("Keypoints", outimg);
+  drawKeypoints(second_image, keypoints2, outimg2, cv::Scalar::all(-1),
+                cv::DrawMatchesFlags::DEFAULT);
+  cv::imshow("Keypoints1", outimg1);
+  cv::imshow("Keypoints2", outimg2);
   cv::waitKey(0);
+  cv::destroyAllWindows();
 }
