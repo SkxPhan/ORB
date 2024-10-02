@@ -1,3 +1,5 @@
+// Inspired by gaoxiang12
+
 #include "orb.hpp"
 
 // ORB pattern
@@ -295,7 +297,7 @@ std::vector<DescType> ORB::computeBRIEFdescriptors(
       }
     }
 
-    // Angle should be arc tan(m01/m10);
+    // Angle should be arctan(m01/m10);
     float m_sqrt = sqrt(m01 * m01 + m10 * m10) + 1e-18;  // avoid divide by zero
     float sin_theta = m01 / m_sqrt;
     float cos_theta = m10 / m_sqrt;
